@@ -43,6 +43,11 @@ class AgentResultSchemaTest(unittest.TestCase):
                 "suggested_action": "act",
                 "failure_modes": ["遮挡"],
                 "confidence": 2.0,
+                "action_type": "suggest_robot_action",
+                "target_object": "cup",
+                "preconditions": "workspace_clear",
+                "safety_constraints": ["human_not_nearby"],
+                "reasoning_summary": "需要先确认桌面空间。",
             },
             ensure_ascii=False,
         )
@@ -51,6 +56,18 @@ class AgentResultSchemaTest(unittest.TestCase):
 
         self.assertEqual(payload["risk_level"], "unknown")
         self.assertEqual(payload["confidence"], 1.0)
+        self.assertEqual(payload["target_object"], "cup")
+        self.assertEqual(payload["preconditions"], ["workspace_clear"])
+        self.assertEqual(payload["safety_constraints"], ["human_not_nearby"])
+
+    def test_fallback_result_contains_action_fields(self):
+        payload = parse_agent_json("not json", query="抓取杯子")
+
+        self.assertEqual(payload["action_type"], "suggest_robot_action")
+        self.assertEqual(payload["target_object"], "")
+        self.assertEqual(payload["preconditions"], [])
+        self.assertEqual(payload["safety_constraints"], [])
+        self.assertEqual(payload["reasoning_summary"], "")
 
 
 if __name__ == "__main__":

@@ -24,7 +24,8 @@ def build_json_prompt(query: str, task: str = "robot_action") -> str:
         f"{template}\n"
         f"用户问题: {query}\n"
         "输出必须是 JSON object，字段为 query, matched_images, scene_summary, "
-        "risk_level, suggested_action, failure_modes, confidence。"
+        "risk_level, suggested_action, failure_modes, confidence, action_type, "
+        "target_object, preconditions, safety_constraints, reasoning_summary。"
     )
 
 
@@ -59,6 +60,11 @@ class MockVLMAnalyzer:
             "suggested_action": "Use this mock result only for pipeline smoke tests.",
             "failure_modes": ["mock_backend"],
             "confidence": 0.1,
+            "action_type": "suggest_robot_action",
+            "target_object": "",
+            "preconditions": [],
+            "safety_constraints": ["human_review_required"],
+            "reasoning_summary": "Mock backend does not inspect image pixels.",
         }
         raw = json.dumps(payload, ensure_ascii=False)
         elapsed_ms = (time.perf_counter() - start) * 1000.0

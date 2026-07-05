@@ -17,6 +17,10 @@ model = [
 video = [
     "opencv-python>=4.8",
 ]
+deploy = [
+    "onnx>=1.16",
+    "onnxruntime>=1.17",
+]
 pc-torch = [
     "torch",
 ]

@@ -17,6 +17,11 @@ class AgentResult:
     suggested_action: str = ""
     failure_modes: list[str] = field(default_factory=list)
     confidence: float = 0.0
+    action_type: str = "suggest_robot_action"
+    target_object: str = ""
+    preconditions: list[str] = field(default_factory=list)
+    safety_constraints: list[str] = field(default_factory=list)
+    reasoning_summary: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -27,6 +32,11 @@ class AgentResult:
             "suggested_action": self.suggested_action,
             "failure_modes": self.failure_modes,
             "confidence": self.confidence,
+            "action_type": self.action_type,
+            "target_object": self.target_object,
+            "preconditions": self.preconditions,
+            "safety_constraints": self.safety_constraints,
+            "reasoning_summary": self.reasoning_summary,
         }
 
 
@@ -39,6 +49,14 @@ def _as_float(value: Any, default: float = 0.0) -> float:
 
 def _clamp(value: float, low: float = 0.0, high: float = 1.0) -> float:
     return max(low, min(high, value))
+
+
+def _as_string_list(value: Any) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if not isinstance(value, list):
+        return []
+    return [str(item) for item in value]
 
 
 def validate_agent_result(payload: dict[str, Any]) -> dict[str, Any]:
@@ -62,20 +80,19 @@ def validate_agent_result(payload: dict[str, Any]) -> dict[str, Any]:
             }
         )
 
-    failure_modes = payload.get("failure_modes", [])
-    if isinstance(failure_modes, str):
-        failure_modes = [failure_modes]
-    elif not isinstance(failure_modes, list):
-        failure_modes = []
-
     return {
         "query": str(payload.get("query", "")),
         "matched_images": normalized_matches,
         "scene_summary": str(payload.get("scene_summary", "")),
         "risk_level": risk_level,
         "suggested_action": str(payload.get("suggested_action", "")),
-        "failure_modes": [str(item) for item in failure_modes],
+        "failure_modes": _as_string_list(payload.get("failure_modes", [])),
         "confidence": _clamp(_as_float(payload.get("confidence", 0.0))),
+        "action_type": str(payload.get("action_type", "suggest_robot_action")),
+        "target_object": str(payload.get("target_object", "")),
+        "preconditions": _as_string_list(payload.get("preconditions", [])),
+        "safety_constraints": _as_string_list(payload.get("safety_constraints", [])),
+        "reasoning_summary": str(payload.get("reasoning_summary", "")),
     }
 
 
