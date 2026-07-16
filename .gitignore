@@ -43,3 +43,6 @@ checkpoints/
 Thumbs.db
 .vscode/
 .idea/
+
+# docs
+docs/reference/
