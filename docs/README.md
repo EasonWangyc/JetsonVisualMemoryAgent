@@ -6,6 +6,7 @@
 
 | 任务 | 先读文档 |
 | --- | --- |
+| 学习项目并规划完整实施路线 | [route.md](route.md) |
 | 理解系统边界或修改核心链路 | [development/architecture.md](development/architecture.md) |
 | 修改视觉索引、编码器或检索逻辑 | [development/clip_memory_design.md](development/clip_memory_design.md) |
 | 新增或调整测试 | [development/testing.md](development/testing.md) |
