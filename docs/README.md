@@ -12,11 +12,13 @@
 | 评估 ROS2 接入 | [development/ros2_bridge_design.md](development/ros2_bridge_design.md) |
 | 选择推理或导出后端 | [development/serving_framework_notes.md](development/serving_framework_notes.md) |
 | 配置 Jetson、ONNX 或 TensorRT | [ops/jetson-deployment.md](ops/jetson-deployment.md) |
+| 查阅已确认的重构设计 | [superpowers/README.md](superpowers/README.md) |
 
 ## 分类入口
 
 - [开发文档](development/README.md)：代码架构、测试策略和扩展设计。
 - [部署与运维文档](ops/README.md)：目标板环境、部署验证和故障证据。
+- [设计决策](superpowers/README.md)：经确认、尚未实施的重构设计。
 
 ## 维护规则
 
